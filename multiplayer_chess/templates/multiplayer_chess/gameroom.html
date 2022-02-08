@@ -1,0 +1,160 @@
+{% extends 'multiplayer_chess/base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'multiplayer_chess/gameroom.css' %}">
+{% endblock %}
+{% block navbar %}
+    {%include 'multiplayer_chess/navbar.html'%}
+{% endblock %}
+{% block content %}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    
+    <div class="modal fade" id="resultModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="resultTitle"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div id="resultText"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="spinner-container">
+        <div id="spinner" class="spinner-grow" style="width: 10rem; height: 10rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+      </div>
+      
+
+    <div class="contents">
+        <div class="card" id="opponent-info-container">
+            <div class="card-header" id="opponent-name">
+            </div>
+            <div class="card-body">
+              <div id="opponent-pieces"></div>
+            </div>
+        </div>
+        <div id="board-container">
+            <table id="board" class="m-2" border="0">
+            <tr>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+            </tr>
+    
+            <tr>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+            </tr>
+    
+            <tr>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+            </tr>
+    
+            <tr>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+            </tr>
+    
+            <tr>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+            </tr>
+    
+            <tr>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+            </tr>
+    
+            <tr>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+            </tr>
+    
+            <tr>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+                <td><div class="cell"></div><div class="highlight"></div></td>
+            </tr>
+            </table>
+        </div>
+        <div class="card" id="player-info-container">
+            <div class="card-header" id="player-name">
+                {{ request.user }}
+            </div>
+            <div class="card-body">
+              <div id="player-pieces"></div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+        var game_type = "{{ game_type }}";
+        var friend_name = "{{ friend_name }}"
+        // const cells = document.getElementById('board').getElementsByTagName('td');
+        const cells = document.querySelectorAll('.cell');
+        const highlights = document.querySelectorAll('.highlight');
+        
+    </script>
+    <script src="{% static 'multiplayer_chess/gameroom.js' %}"></script>
+
+{% endblock %}

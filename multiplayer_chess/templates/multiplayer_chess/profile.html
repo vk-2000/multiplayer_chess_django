@@ -1,0 +1,43 @@
+{% extends 'multiplayer_chess/base.html' %}
+{% load static %}
+{% block navbar %}
+    {%include 'multiplayer_chess/navbar.html'%}
+{% endblock %}
+{% block content %}
+    <div class="container bg-primary w-100">
+        <div class="row container d-flex flex-column flex-sm-row justify-content-between align-items-center text-white my-3 w-100">
+            <div class="col display-3 p-3 m-3 d-flex justify-content-center">{{ request.user.username }}</div>
+            <div class="col d-flex flex-column p-3">
+                <div class="d-flex justify-content-between">
+                    <div>Rating</div>
+                    <div>{{rating}}</div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>Total games</div>
+                    <div>{{total_games}}</div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>Win percentage</div>
+                    <div>{{win_percent}} %</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container text-white">
+        <div class="d-flex justify-content-between">
+            <div class="display-6">Games</div>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <button onclick="getGames('all')" class="nav-link active" aria-current="page">All</button>
+                </li>
+                <li class="nav-item">
+                    <button onclick="getGames('won')" class="nav-link">Won</button>
+                </li>
+                <li class="nav-item">
+                    <button onclick="getGames('lost')" class="nav-link">Lost</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

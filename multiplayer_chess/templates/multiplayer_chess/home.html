@@ -1,0 +1,40 @@
+{% extends 'multiplayer_chess/base.html' %}
+{% load static %}
+{% block navbar %}
+    {%include 'multiplayer_chess/navbar.html'%}
+{% endblock %}
+{% block content %}
+    <div class="container my-3">
+        <div class="row justify-content-around">
+            <div class="col-9 my-3 col-sm-5">
+                <div class="card">
+                    <img style="max-height: 500px;" src="{% static 'multiplayer_chess/images/chess_random.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <a href="{% url 'multiplayer_chess:gameroom' %}" class="container btn btn-primary stretched-link">Play random</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9 my-3 col-sm-5">
+                <div class="card">
+                    <img style="max-height: 500px;" src="{% static 'multiplayer_chess/images/chess_friend.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <a href="{% url 'multiplayer_chess:friends' %}" class="container btn btn-primary stretched-link">Play with friends</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <script>
+        // function declared here because django template scripting tags cannot be used in static files
+        function getFriendMatchUrl(friend_name) {
+            return "{% url 'multiplayer_chess:play_with_friend' friend_name=12345 %}".replace(/12345/, friend_name.toString())
+        }
+    </script>
+    <script src="{% static 'multiplayer_chess/home.js' %}"></script>
+{% endblock %}
+
+
+

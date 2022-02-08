@@ -1,0 +1,79 @@
+{% extends 'multiplayer_chess/base.html' %}
+{% load static %}
+
+{% block navbar %}
+    {%include 'multiplayer_chess/navbar.html'%}
+{% endblock %}
+{% block content %}
+
+    {% for fr in friend_requests %}
+    <div class="container">
+        <span>{{fr.from_user}}</span>
+        <div class="btn-group">
+            <a class="btn btn-success" href="{% url 'multiplayer_chess:accept_friend_request' friend_name=fr.from_user %}">Accept</a>
+            <a class="btn btn-danger" href="{% url 'multiplayer_chess:reject_friend_request' friend_name=fr.from_user %}">Reject</a>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <div class="d-flex flex-column justify-content-center align-items-center py-4">
+        {% for friend in friends_list %}
+        <div class="container rounded shadow m-3 d-flex p-3 align-items-center bg-light">
+            <div class="w-50">
+                {% if friend.is_online %}
+                    <span class="badge bg-success mx-3">Online</span>
+                {% else %}
+                    <span class="badge bg-dark mx-3">Offline</span>
+                {% endif %}
+                {{ friend }}
+            </div>
+            <a class="container btn btn-primary w-25" href="{% url 'multiplayer_chess:play_with_friend' friend_name=friend.user.username %}">Challenge</a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <button type="button" class="container btn btn-primary" data-toggle="modal" data-target="#addFriendModal">Add friend</button>
+    </div>
+    <div class="modal fade" id="addFriendModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Add friend</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <input id="friendSearch" type="text" class="form-control" placeholder="Friend's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-primary" id="friendSearchButton" type="button">Search</button>
+                    </div>
+                </div>
+                <div id="searchResultContainer" class="d-none">
+                    <div class="container w-50" id="searchResultName"></div>
+                    <button class="w-50 btn btn-success" id="btnSendRequest">Send Request</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+
+    <script>
+    function getPlayerExistsUrl(friend_name){
+        return "{% url 'multiplayer_chess:player_exists' friend_name=12345 %}".replace(/12345/, friend_name.toString())
+    }
+    function getSendRequestUrl(friend_name){
+        return "{% url 'multiplayer_chess:send_request' friend_name=12345 %}".replace(/12345/, friend_name.toString())
+    }
+    function getFriendMatchUrl(friend_name) {
+            return "{% url 'multiplayer_chess:play_with_friend' friend_name=12345 %}".replace(/12345/, friend_name.toString())
+    }
+    </script>
+
+    <script src="{% static 'multiplayer_chess/friends.js' %}"></script>
+{% endblock %}
