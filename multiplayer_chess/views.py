@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from matplotlib.style import use
-
+from django.db.models import Q
 from multiplayer_chess.models import Friend_Request, Player
 from .forms import NewUserForm, LoginForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -152,9 +152,16 @@ def player_info(request):
     total_games = p.played_in.all().count()
     games_won = p.winner.all().count()
     win_percent = games_won/total_games * 100
+    recent_games = p.played_in.all().order_by('-time')[:5]
+    recent_games_arr = []
+    for game in recent_games:
+        opponent = game.players.filter(~Q(user=request.user))[0]
+        result = game.winner == p
+        recent_games_arr.append((opponent, result))
     context = {
         'rating': rating,
         'total_games': total_games,
-        'win_percent': str(round(win_percent, 2))
+        'win_percent': str(round(win_percent, 2)),
+        'recent_games': recent_games_arr
     }
     return render(request=request, template_name='multiplayer_chess/profile.html', context=context)

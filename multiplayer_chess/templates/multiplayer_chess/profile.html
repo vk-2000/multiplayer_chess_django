@@ -4,6 +4,7 @@
     {%include 'multiplayer_chess/navbar.html'%}
 {% endblock %}
 {% block content %}
+<div class="container sm-w-75">
     <div class="container bg-primary w-100">
         <div class="row container d-flex flex-column flex-sm-row justify-content-between align-items-center text-white my-3 w-100">
             <div class="col display-3 p-3 m-3 d-flex justify-content-center">{{ request.user.username }}</div>
@@ -23,21 +24,23 @@
             </div>
         </div>
     </div>
-    <div class="container text-white">
-        <div class="d-flex justify-content-between">
-            <div class="display-6">Games</div>
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                  <button onclick="getGames('all')" class="nav-link active" aria-current="page">All</button>
-                </li>
-                <li class="nav-item">
-                    <button onclick="getGames('won')" class="nav-link">Won</button>
-                </li>
-                <li class="nav-item">
-                    <button onclick="getGames('lost')" class="nav-link">Lost</button>
-                </li>
-            </ul>
-        </div>
+    <div class="container text-white bg-primary">
+        <div class="display-6 p-2 my-3 w-100">Recent games</div>
     </div>
+    <div class="container text-white">
+        {% for opponent, result in recent_games %}
+            <div class="d-flex justify-content-between p-3">
+                <div class="display-7">{{opponent}}</div>
+                {% if result %}
+                    <div class="badge bg-success">Won</div>
+                {% else %}
+                    <div class="badge bg-danger">Lost</div>
+                {% endif %}
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+</div>
+    
 
 {% endblock %}

@@ -31,7 +31,7 @@ class Gameroom(models.Model):
     players = models.ManyToManyField(Player, related_name="played_in")
     active = models.BooleanField(default=True)
     private = models.BooleanField(default=False)
-
+    time = models.DateTimeField(auto_now_add=True)
     winner = models.ForeignKey(
         Player, on_delete=CASCADE, related_name="winner", null=True)
 
