@@ -8,7 +8,7 @@ from django.contrib import messages
 from matplotlib.style import use
 from django.db.models import Q
 from multiplayer_chess.models import Friend_Request, Player
-from .forms import NewUserForm, LoginForm
+from .forms import LoginForm, RegisterForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
@@ -47,7 +47,7 @@ def logoutView(request):
 
 def registerView(request):
     if request.method == 'POST':
-        form = NewUserForm(request.POST)
+        form = RegisterForm(request.POST)
         try:
             user = form.save()
             Player.objects.create(user=user)
@@ -56,8 +56,8 @@ def registerView(request):
             return redirect("multiplayer_chess:home")
         except Exception as e:
             messages.error(request, str(e))
-    form = NewUserForm()
-    return render(request=request, template_name="multiplayer_chess/register.html", context={"form": form})
+    form = RegisterForm()
+    return render(request=request, template_name="multiplayer_chess/register.html", context={"register_form": form})
 
 
 @login_required(login_url='/login')
@@ -151,7 +151,10 @@ def player_info(request):
     rating = 0
     total_games = p.played_in.all().count()
     games_won = p.winner.all().count()
-    win_percent = games_won/total_games * 100
+    if total_games == 0:
+        win_percent = 0
+    else:
+        win_percent = games_won/total_games * 100
     recent_games = p.played_in.all().order_by('-time')[:5]
     recent_games_arr = []
     for game in recent_games:

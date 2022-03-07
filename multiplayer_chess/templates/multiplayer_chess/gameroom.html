@@ -153,6 +153,9 @@
         // const cells = document.getElementById('board').getElementsByTagName('td');
         const cells = document.querySelectorAll('.cell');
         const highlights = document.querySelectorAll('.highlight');
+        for (let i = 0; i < 64; i++) {
+            highlights[i].classList.add("hidden");
+        }
         
     </script>
     <script src="{% static 'multiplayer_chess/gameroom.js' %}"></script>
