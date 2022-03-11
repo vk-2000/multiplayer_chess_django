@@ -148,6 +148,7 @@ def send_request(request, friend_name):
 @login_required(login_url='/login')
 def player_info(request):
     p = Player.objects.get(user=request.user)
+
     rating = 0
     total_games = p.played_in.all().count()
     games_won = p.winner.all().count()
@@ -161,10 +162,23 @@ def player_info(request):
         opponent = game.players.filter(~Q(user=request.user))[0]
         result = game.winner == p
         recent_games_arr.append((opponent, result))
+
+    friends_info = {}
+    friends = p.friends.all()
+    for f in friends:
+        w = p.played_in.filter(winner=p).intersection(
+            f.played_in.all()).count()
+        l = p.played_in.filter(winner=f).intersection(
+            f.played_in.all()).count()
+        d = p.played_in.filter(winner=None).intersection(
+            f.played_in.all()).count()
+        friends_info[f] = {'won': w, 'lost': l, 'draw': d}
+
     context = {
         'rating': rating,
         'total_games': total_games,
         'win_percent': str(round(win_percent, 2)),
-        'recent_games': recent_games_arr
+        'recent_games': recent_games_arr,
+        'friends_info': friends_info
     }
     return render(request=request, template_name='multiplayer_chess/profile.html', context=context)

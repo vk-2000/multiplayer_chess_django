@@ -24,18 +24,34 @@
             </div>
         </div>
     </div>
-    <div class="container text-white bg-primary">
-        <div class="display-6 p-2 my-3 w-100">Recent games</div>
+    <div class="container text-white bg-primary rounded-3">
+        <div class="p-2 my-3 w-100" style="font-size: 2rem;">Recent games</div>
     </div>
     <div class="container text-white">
         {% for opponent, result in recent_games %}
-            <div class="d-flex justify-content-between p-3">
+            <div class="d-flex justify-content-between p-2">
                 <div class="display-7">{{opponent}}</div>
                 {% if result %}
                     <div class="badge bg-success">Won</div>
                 {% else %}
                     <div class="badge bg-danger">Lost</div>
                 {% endif %}
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+    <div class="container text-white bg-primary rounded-3">
+        <div class="p-2 my-3 w-100" style="font-size: 2rem;">Friends</div>
+    </div>
+    <div class="container text-white">
+        {% for friend, info in friends_info.items %}
+            <div class="d-flex justify-content-between p-2">
+                <div>{{friend}}</div>
+                <div>
+                    <div class="badge bg-success">{{info.won}} W</div>
+                    <div class="badge bg-danger">{{info.lost}} L</div>
+                    <div class="badge">{{info.draw}} D</div>
+                </div>
             </div>
             <hr>
         {% endfor %}
