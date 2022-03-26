@@ -42,7 +42,6 @@ chatSocket.onmessage = function (e) {
   console.log(data);
 
   if (data["type"] == 0) {
-    document.getElementById("spinner-container").classList.add("hidden");
     document.getElementById("spinner").classList.add("hidden");
     color = data["color"];
     turn = data["turn"];

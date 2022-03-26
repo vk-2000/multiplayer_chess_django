@@ -3,6 +3,9 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'multiplayer_chess/gameroom.css' %}">
 {% endblock %}
+{% block title %}
+    <title>Gameroom</title>
+{% endblock %}
 {% block navbar %}
     {%include 'multiplayer_chess/navbar.html'%}
 {% endblock %}
@@ -30,14 +33,13 @@
         </div>
       </div>
 
-      <div id="spinner-container">
-        <div id="spinner" class="spinner-grow" style="width: 10rem; height: 10rem;" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-      </div>
+      
       
 
-    <div class="contents">
+    <div class="contents" style="position: relative">
+            <div id="spinner" class="spinner-grow" style="width: 10rem; height: 10rem; position: absolute; z-index: 1;" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
         <div class="card" id="opponent-info-container">
             <div class="card-header" id="opponent-name">
             </div>

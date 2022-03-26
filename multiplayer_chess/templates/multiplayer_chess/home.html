@@ -1,5 +1,8 @@
 {% extends 'multiplayer_chess/base.html' %}
 {% load static %}
+{% block title %}
+    <title>Home</title>
+{% endblock %}
 {% block navbar %}
     {%include 'multiplayer_chess/navbar.html'%}
 {% endblock %}
@@ -33,7 +36,7 @@
             return "{% url 'multiplayer_chess:play_with_friend' friend_name=12345 %}".replace(/12345/, friend_name.toString())
         }
     </script>
-    <script src="{% static 'multiplayer_chess/home.js' %}"></script>
+    <script src="{% static 'multiplayer_chess/connection.js' %}"></script>
 {% endblock %}
 
 

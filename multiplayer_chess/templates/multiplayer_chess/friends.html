@@ -1,6 +1,8 @@
 {% extends 'multiplayer_chess/base.html' %}
 {% load static %}
-
+{% block title %}
+    <title>Friends</title>
+{% endblock %}
 {% block navbar %}
     {%include 'multiplayer_chess/navbar.html'%}
 {% endblock %}
@@ -73,7 +75,10 @@
     function getFriendMatchUrl(friend_name) {
             return "{% url 'multiplayer_chess:play_with_friend' friend_name=12345 %}".replace(/12345/, friend_name.toString())
     }
+        // function declared here because django template scripting tags cannot be used in static files
+    
     </script>
 
     <script src="{% static 'multiplayer_chess/friends.js' %}"></script>
+    <script src="{% static 'multiplayer_chess/connection.js' %}"></script>
 {% endblock %}
