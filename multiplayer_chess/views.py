@@ -62,7 +62,10 @@ def registerView(request):
 
 @login_required(login_url='/login')
 def home(request):
-    return render(request=request, template_name='multiplayer_chess/home.html')
+    p = Player.objects.get(user=request.user)
+    return render(request=request, template_name='multiplayer_chess/home.html', context={
+        'recent_games': getPastGames(p, 5)
+    })
 
 
 @login_required(login_url='/login')
@@ -156,12 +159,6 @@ def player_info(request):
         win_percent = 0
     else:
         win_percent = games_won/total_games * 100
-    recent_games = p.played_in.all().order_by('-time')[:5]
-    recent_games_arr = []
-    for game in recent_games:
-        opponent = game.players.filter(~Q(user=request.user))[0]
-        result = game.winner == p
-        recent_games_arr.append((opponent, result))
 
     friends_info = {}
     friends = p.friends.all()
@@ -178,7 +175,28 @@ def player_info(request):
         'rating': rating,
         'total_games': total_games,
         'win_percent': str(round(win_percent, 2)),
-        'recent_games': recent_games_arr,
+        'recent_games': getPastGames(p, 5),
         'friends_info': friends_info
     }
     return render(request=request, template_name='multiplayer_chess/profile.html', context=context)
+
+
+def getPastGames(player, n):  # -1 for all games
+    if n == -1:
+        recent_games = player.played_in.all().order_by('-time')
+    else:
+        recent_games = player.played_in.all().order_by('-time')[:n]
+    recent_games_arr = []
+    for game in recent_games:
+        opponent = game.players.filter(~Q(user=player.user))[0]
+        result = game.winner == player
+        recent_games_arr.append((opponent, result))
+
+    return recent_games_arr
+
+
+def games_archive(request):
+    p = Player.objects.get(user=request.user)
+    return render(request=request, template_name='multiplayer_chess/games_archive.html', context={
+        'all_games': getPastGames(p, -1)
+    })

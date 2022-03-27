@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.urls import path
 from . import views
 from django.conf.urls.static import static
@@ -23,5 +24,6 @@ urlpatterns = [
          views.player_exists, name='player_exists'),
     path('send_request/<str:friend_name>/',
          views.send_request, name="send_request"),
-    path('player_info/', views.player_info, name='player_info')
+    path('player_info/', views.player_info, name='player_info'),
+    path('games_archive', views.games_archive, name='games_archive')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

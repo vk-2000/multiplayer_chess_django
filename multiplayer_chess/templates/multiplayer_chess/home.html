@@ -11,7 +11,7 @@
         <div class="row justify-content-around">
             <div class="col-9 my-3 col-sm-5">
                 <div class="card">
-                    <img style="max-height: 500px;" src="{% static 'multiplayer_chess/images/chess_random.jpg' %}" class="card-img-top" alt="...">
+                    <img style="max-height: 450px;" src="{% static 'multiplayer_chess/images/chess_random.jpg' %}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <a href="{% url 'multiplayer_chess:gameroom' %}" class="container btn btn-primary stretched-link">Play random</a>
                     </div>
@@ -19,7 +19,7 @@
             </div>
             <div class="col-9 my-3 col-sm-5">
                 <div class="card">
-                    <img style="max-height: 500px;" src="{% static 'multiplayer_chess/images/chess_friend.jpg' %}" class="card-img-top" alt="...">
+                    <img style="max-height: 450px;" src="{% static 'multiplayer_chess/images/chess_friend.jpg' %}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <a href="{% url 'multiplayer_chess:friends' %}" class="container btn btn-primary stretched-link">Play with friends</a>
                     </div>
@@ -27,8 +27,8 @@
             </div>
         </div>
     </div>
-    
-    
+
+    {% include 'multiplayer_chess/recent_games.html' %}
 
     <script>
         // function declared here because django template scripting tags cannot be used in static files
