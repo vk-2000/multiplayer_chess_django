@@ -8,7 +8,7 @@
 {% endblock %}
 {% block content %}
 <div class="container sm-w-75">
-    <div class="container bg-primary w-100">
+    <div class="container primary_bg w-100">
         <div class="row container d-flex flex-column flex-sm-row justify-content-between align-items-center text-white my-3 w-100">
             <div class="col display-3 p-3 m-3 d-flex justify-content-center">{{ request.user.username }}</div>
             <div class="col d-flex flex-column p-3">
@@ -30,7 +30,7 @@
     
     {% include 'multiplayer_chess/recent_games.html' %}
 
-    <div class="container text-white bg-primary rounded-3">
+    <div class="container text-white primary_bg rounded-3">
         <div class="p-2 my-3 w-100" style="font-size: 2rem;">Friends</div>
     </div>
     <div class="container text-white">
